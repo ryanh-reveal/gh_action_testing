@@ -1,8 +1,9 @@
+name: TWIN UI - Tag Main Merges
+
 on:
   pull_request:
     types:
       - closed
-
 jobs:
   if_merged:
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
@@ -13,3 +14,11 @@ jobs:
         run: echo "date=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
       - name: Set tag name
         run: echo "TAG_NAME=release-${{ env.date }}" >> $GITHUB_ENV
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Create and push tag
+        run: |
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
