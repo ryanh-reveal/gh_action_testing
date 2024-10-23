@@ -14,7 +14,9 @@ jobs:
     steps:
       - name: Get current date
         id: date
-        run: echo "date=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
+        run: |
+          export TZ=NZ
+          echo "date=$(date +'%Y-%m-%d-%H-%M-%S')" >> $GITHUB_ENV
       - name: Set tag name
         run: echo "TAG_NAME=release-${{ env.date }}" >> $GITHUB_ENV
       - name: Checkout branch
